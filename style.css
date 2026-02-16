@@ -1,3 +1,33 @@
+:root {
+    --bg-color: #f4f4f4;
+    --text-color: #333;
+    --container-bg: #fff;
+    --h1-color: #007bff;
+    --circle-bg: #007bff;
+    --circle-text: #fff;
+    --btn-generate-bg: #28a745;
+    --btn-generate-hover-bg: #218838;
+    --btn-reset-bg: #dc3545;
+    --btn-reset-hover-bg: #c82333;
+    --btn-toggle-bg: #6c757d;
+    --btn-toggle-hover-bg: #5a6268;
+}
+
+body.dark-mode {
+    --bg-color: #343a40;
+    --text-color: #f8f9fa;
+    --container-bg: #454d55;
+    --h1-color: #17a2b8;
+    --circle-bg: #17a2b8;
+    --circle-text: #fff;
+    --btn-generate-bg: #218838;
+    --btn-generate-hover-bg: #1e7e34;
+    --btn-reset-bg: #c82333;
+    --btn-reset-hover-bg: #bd2130;
+    --btn-toggle-bg: #007bff;
+    --btn-toggle-hover-bg: #0056b3;
+}
+
 body {
     font-family: Arial, sans-serif;
     display: flex;
@@ -5,12 +35,13 @@ body {
     align-items: center;
     min-height: 100vh;
     margin: 0;
-    background-color: #f4f4f4;
-    color: #333;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .container {
-    background-color: #fff;
+    background-color: var(--container-bg);
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -18,7 +49,7 @@ body {
 }
 
 h1 {
-    color: #007bff;
+    color: var(--h1-color);
     margin-bottom: 20px;
 }
 
@@ -34,8 +65,8 @@ h1 {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: #007bff;
-    color: #fff;
+    background-color: var(--circle-bg);
+    color: var(--circle-text);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -49,21 +80,33 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    background-color: #28a745;
     color: white;
     font-size: 16px;
     margin: 0 5px;
     transition: background-color 0.3s ease;
 }
 
-button:hover {
-    background-color: #218838;
+button#generateBtn {
+    background-color: var(--btn-generate-bg);
+}
+
+button#generateBtn:hover {
+    background-color: var(--btn-generate-hover-bg);
 }
 
 button#resetBtn {
-    background-color: #dc3545;
+    background-color: var(--btn-reset-bg);
 }
 
 button#resetBtn:hover {
-    background-color: #c82333;
+    background-color: var(--btn-reset-hover-bg);
+}
+
+button#theme-toggle {
+    background-color: var(--btn-toggle-bg);
+    margin-bottom: 20px;
+}
+
+button#theme-toggle:hover {
+    background-color: var(--btn-toggle-hover-bg);
 }
