@@ -1,41 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
     const cityInput = document.getElementById('cityInput');
     const checkWeatherBtn = document.getElementById('checkWeatherBtn');
-    const dogSizeSelect = document.getElementById('dogSize'); // New element
+    const dogSizeSelect = document.getElementById('dogSize');
     const temperatureSpan = document.getElementById('temperature');
     const weatherConditionSpan = document.getElementById('weatherCondition');
     const walkRecommendationSpan = document.getElementById('walkRecommendation');
     const reasonParagraph = document.getElementById('reason');
     const recommendationDiv = document.querySelector('.recommendation');
 
-    const cityCoordinates = {
-        "Seoul": { latitude: 37.5665, longitude: 126.9780 },
-        "Busan": { latitude: 35.1796, longitude: 129.0756 },
-        "Incheon": { latitude: 37.4563, longitude: 126.7052 },
-        "Daegu": { latitude: 35.8714, longitude: 128.6014 },
-        "Gwangju": { latitude: 35.1595, longitude: 126.8526 },
-        "Daejeon": { latitude: 36.3504, longitude: 127.3845 },
-        "Ulsan": { latitude: 35.5384, longitude: 129.3114 },
-        "Suwon": { latitude: 37.2636, longitude: 127.0286 },
-        "Goyang": { latitude: 37.6581, longitude: 126.8317 },
-        "Yongin": { latitude: 37.2289, longitude: 127.1852 },
-        "Changwon": { latitude: 35.2280, longitude: 128.6816 },
-        "Cheongju": { latitude: 36.6424, longitude: 127.4891 },
-        "Cheonan": { latitude: 36.8140, longitude: 127.1190 },
-        "Jeonju": { latitude: 35.8214, longitude: 127.1080 },
-        "Pohang": { latitude: 36.0315, longitude: 129.3512 },
-        "Gumi": { latitude: 36.1287, longitude: 128.3323 }
-    };
+    // Remove cityCoordinates mapping as we will primarily use geolocation
 
-    async function fetchWeatherData(city) {
-        const coords = cityCoordinates[city];
-        if (!coords) {
-            alert("지원하지 않는 도시입니다. 목록에 있는 도시를 선택하거나 입력해주세요.");
-            return null;
-        }
-
+    async function fetchWeatherData(latitude, longitude) {
         // Requesting humidity along with temperature and weather code
-        const url = `https://api.open-meteo.com/v1/forecast?latitude=${coords.latitude}&longitude=${coords.longitude}&current_weather=true&temperature_unit=celsius&windspeed_unit=kmh&precipitation_unit=mm&hourly=relativehumidity_2m&timezone=Asia%2FSeoul`;
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&temperature_unit=celsius&windspeed_unit=kmh&precipitation_unit=mm&hourly=relativehumidity_2m&timezone=Asia%2FSeoul`;
 
         try {
             const response = await fetch(url);
@@ -58,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } catch (error) {
             console.error("날씨 데이터를 가져오는 중 오류 발생:", error);
-            alert("날씨 데이터를 가져오는 데 실패했습니다. 잠시 후 다시 시도해주세요.");
+            // alert("날씨 데이터를 가져오는 데 실패했습니다. 잠시 후 다시 시도해주세요.");
             return null;
         }
     }
@@ -178,12 +155,60 @@ document.addEventListener('DOMContentLoaded', () => {
         recommendationDiv.className = `recommendation ${className}`;
     }
 
-    async function updateWeatherAndRecommendation() {
+    // Function to get current geolocation and fetch weather
+    function getCurrentLocationWeather() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(async (position) => {
+                const { latitude, longitude } = position.coords;
+                cityInput.value = "현재 위치"; // Indicate that location is from geolocation
+                const dogSize = dogSizeSelect.value;
+
+                const weather = await fetchWeatherData(latitude, longitude);
+                if (weather) {
+                    temperatureSpan.textContent = weather.temperature;
+                    getWalkRecommendation(weather.temperature, weather.weathercode, weather.humidity, dogSize);
+                } else {
+                    walkRecommendationSpan.textContent = '확인 불가';
+                    reasonParagraph.textContent = '현재 위치의 날씨 정보를 가져올 수 없습니다.';
+                    recommendationDiv.className = 'recommendation bad';
+                }
+            }, (error) => {
+                console.error("위치 정보를 가져오는 중 오류 발생:", error);
+                alert("위치 정보를 가져올 수 없습니다. 도시를 수동으로 입력하거나, 브라우저에서 위치 정보 접근을 허용해주세요.");
+                walkRecommendationSpan.textContent = '확인 불가';
+                reasonParagraph.textContent = '위치 정보 접근이 거부되었습니다.';
+                recommendationDiv.className = 'recommendation bad';
+                // Fallback to manual city input or a default location if geolocation fails
+                cityInput.value = "Seoul"; // Default to Seoul
+                updateWeatherAndRecommendationManual();
+            });
+        } else {
+            alert("브라우저가 위치 정보를 지원하지 않습니다. 도시를 수동으로 입력해주세요.");
+            cityInput.value = "Seoul"; // Default to Seoul
+            updateWeatherAndRecommendationManual();
+        }
+    }
+
+    // Manual update function for city input fallback
+    async function updateWeatherAndRecommendationManual() {
         const city = cityInput.value.trim();
         const dogSize = dogSizeSelect.value;
 
-        if (!city) {
-            alert("도시 이름을 입력해주세요.");
+        // Fallback city coordinates (simple mapping)
+        const fallbackCityCoordinates = {
+            "Seoul": { latitude: 37.5665, longitude: 126.9780 },
+            "Busan": { latitude: 35.1796, longitude: 129.0756 },
+            "Incheon": { latitude: 37.4563, longitude: 126.7052 },
+            "Daegu": { latitude: 35.8714, longitude: 128.6014 },
+            "Gwangju": { latitude: 35.1595, longitude: 126.8526 },
+            "Daejeon": { latitude: 36.3504, longitude: 127.3845 },
+            "Ulsan": { latitude: 35.5384, longitude: 129.3114 },
+            // Add more fallback cities as needed
+        };
+
+        const coords = fallbackCityCoordinates[city];
+        if (!coords) {
+            alert("지원하지 않는 도시입니다. Seoul, Busan 등으로 다시 시도해주세요.");
             return;
         }
 
@@ -193,7 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
         reasonParagraph.textContent = '';
         recommendationDiv.className = 'recommendation'; // Reset class
 
-        const weather = await fetchWeatherData(city);
+        const weather = await fetchWeatherData(coords.latitude, coords.longitude);
         if (weather) {
             temperatureSpan.textContent = weather.temperature;
             getWalkRecommendation(weather.temperature, weather.weathercode, weather.humidity, dogSize);
@@ -204,9 +229,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    checkWeatherBtn.addEventListener('click', updateWeatherAndRecommendation);
-    dogSizeSelect.addEventListener('change', updateWeatherAndRecommendation); // Update on dog size change
 
-    // Initial load for Seoul
-    updateWeatherAndRecommendation();
+    checkWeatherBtn.addEventListener('click', updateWeatherAndRecommendationManual);
+    dogSizeSelect.addEventListener('change', () => {
+        // If current location is set, re-run geolocation, otherwise use manual
+        if (cityInput.value === "현재 위치") {
+            getCurrentLocationWeather();
+        } else {
+            updateWeatherAndRecommendationManual();
+        }
+    });
+
+    // Initial load: try to get current location
+    getCurrentLocationWeather();
 });
