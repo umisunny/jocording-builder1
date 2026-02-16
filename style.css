@@ -63,6 +63,41 @@ h1 {
     background-color: #218838;
 }
 
+.dog-size-selection {
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+.dog-size-selection label {
+    font-weight: bold;
+    color: #555;
+    margin-right: 10px;
+}
+
+.dog-size-selection select {
+    padding: 10px 15px;
+    border: 1px solid #add8e6;
+    border-radius: 6px;
+    font-size: 1em;
+    color: #333;
+    background-color: #fff;
+    cursor: pointer;
+    appearance: none; /* Remove default dropdown arrow */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007bff%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13.6-6.4H19.6c-4.8%200-9.2%202-12.8%205.6L4.4%2075.8c-3.6%203.6-5.6%208-5.6%2012.8s2%209.2%205.6%2012.8l128%20128c3.6%203.6%208%205.6%2012.8%205.6s9.2-2%2012.8-5.6l128-128c3.6-3.6%205.6-8%205.6-12.8s-2-9.2-5.6-12.8L287%2069.4z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right 10px top 50%;
+    background-size: 12px auto;
+}
+
+.dog-size-selection select:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+
 .weather-info {
     background-color: #f0f8ff;
     padding: 20px;
