@@ -1,58 +1,24 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const generateBtn = document.getElementById('generateBtn');
-    const resetBtn = document.getElementById('resetBtn');
-    const numberDisplay = document.querySelector('.number-display');
-    const themeToggle = document.getElementById('theme-toggle');
-    const body = document.body;
+    const recommendBtn = document.getElementById('recommendBtn');
+    const menuDisplay = document.querySelector('.menu-display');
 
-    // Theme toggle logic
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-        body.classList.add(savedTheme);
-    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        body.classList.add('dark-mode');
+    const foodMenus = [
+        "김치찌개", "된장찌개", "제육볶음", "비빔밥", "불고기",
+        "순두부찌개", "삼겹살", "갈비찜", "닭갈비", "파스타",
+        "피자", "햄버거", "초밥", "돈까스", "쌀국수",
+        "카레", "짜장면", "짬뽕", "탕수육", "떡볶이"
+    ];
+
+    function getRandomMenu() {
+        const randomIndex = Math.floor(Math.random() * foodMenus.length);
+        return foodMenus[randomIndex];
     }
 
-    themeToggle.addEventListener('click', () => {
-        if (body.classList.contains('dark-mode')) {
-            body.classList.remove('dark-mode');
-            localStorage.setItem('theme', 'light-mode');
-        } else {
-            body.classList.add('dark-mode');
-            localStorage.setItem('theme', 'dark-mode');
-        }
+    recommendBtn.addEventListener('click', () => {
+        const recommendedMenu = getRandomMenu();
+        menuDisplay.innerHTML = `<p>${recommendedMenu}</p>`;
     });
 
-    // Lotto number generation logic
-    function generateLottoNumbers() {
-        const numbers = new Set();
-        while (numbers.size < 6) {
-            numbers.add(Math.floor(Math.random() * 45) + 1);
-        }
-        return Array.from(numbers).sort((a, b) => a - b);
-    }
-
-    function displayNumbers(numbers) {
-        numberDisplay.innerHTML = ''; // Clear previous numbers
-        numbers.forEach(num => {
-            const circle = document.createElement('div');
-            circle.classList.add('number-circle');
-            circle.textContent = num;
-            numberDisplay.appendChild(circle);
-        });
-    }
-
-    function resetNumbers() {
-        numberDisplay.innerHTML = ''; // Clear numbers
-    }
-
-    generateBtn.addEventListener('click', () => {
-        const lottoNumbers = generateLottoNumbers();
-        displayNumbers(lottoNumbers);
-    });
-
-    resetBtn.addEventListener('click', resetNumbers);
-
-    // Initial state: maybe generate numbers on load or keep it empty
-    // displayNumbers(generateLottoNumbers());
+    // Initial display
+    menuDisplay.innerHTML = `<p>버튼을 눌러 메뉴를 추천받으세요!</p>`;
 });
