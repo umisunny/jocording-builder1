@@ -1,71 +1,115 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     margin: 0;
-    background-color: #f0f2f5;
+    background-color: #e0f2f7;
     color: #333;
+    line-height: 1.6;
 }
 
 .container {
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    width: 90%;
-    max-width: 500px;
+    background-color: #ffffff;
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
     text-align: center;
+    width: 90%;
+    max-width: 550px;
+    border: 1px solid #cceeff;
 }
 
 h1 {
     color: #007bff;
     margin-bottom: 25px;
-    font-size: 2em;
+    font-size: 2.4em;
+    font-weight: 600;
 }
 
-form {
+.location-input {
     display: flex;
-    flex-direction: column;
-    gap: 15px;
-    text-align: left;
+    gap: 10px;
+    margin-bottom: 25px;
 }
 
-label {
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: #555;
+.location-input input {
+    flex-grow: 1;
+    padding: 12px 15px;
+    border: 1px solid #add8e6;
+    border-radius: 6px;
+    font-size: 1.1em;
+    color: #333;
 }
 
-input[type="text"],
-input[type="email"],
-textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box; /* Include padding in width */
-    font-size: 1em;
+.location-input input::placeholder {
+    color: #999;
 }
 
-textarea {
-    resize: vertical;
-}
-
-button[type="submit"] {
-    background-color: #007bff;
-    color: white;
+.location-input button {
     padding: 12px 20px;
+    background-color: #28a745;
+    color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     cursor: pointer;
     font-size: 1.1em;
     font-weight: bold;
     transition: background-color 0.3s ease;
-    margin-top: 10px;
 }
 
-button[type="submit"]:hover {
-    background-color: #0056b3;
+.location-input button:hover {
+    background-color: #218838;
+}
+
+.weather-info {
+    background-color: #f0f8ff;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    border: 1px solid #b3e0ff;
+}
+
+.weather-info p {
+    margin: 8px 0;
+    font-size: 1.1em;
+    color: #555;
+}
+
+.weather-info span {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.recommendation h2 {
+    font-size: 1.8em;
+    color: #007bff;
+    margin-bottom: 10px;
+}
+
+.recommendation #walkRecommendation {
+    display: block;
+    font-size: 2em;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.recommendation p#reason {
+    font-size: 1.1em;
+    color: #666;
+    margin-top: 15px;
+}
+
+/* Specific styles for recommendations */
+.recommendation.good #walkRecommendation {
+    color: #28a745; /* Green */
+}
+
+.recommendation.caution #walkRecommendation {
+    color: #ffc107; /* Orange */
+}
+
+.recommendation.bad #walkRecommendation {
+    color: #dc3545; /* Red */
 }
