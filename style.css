@@ -1,7 +1,8 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     display: flex;
-    justify-content: center;
+    flex-direction: column; /* Allow content and footer to stack vertically */
+    justify-content: space-between; /* Push footer to bottom */
     align-items: center;
     min-height: 100vh;
     margin: 0;
@@ -19,6 +20,7 @@ body {
     width: 90%;
     max-width: 550px;
     border: 1px solid #cceeff;
+    margin-bottom: 20px; /* Space between container and footer */
 }
 
 h1 {
@@ -147,4 +149,28 @@ h1 {
 
 .recommendation.bad #walkRecommendation {
     color: #dc3545; /* Red */
+}
+
+footer {
+    width: 100%;
+    text-align: center;
+    padding: 20px 0;
+    background-color: #f0f2f5;
+    color: #666;
+    font-size: 0.9em;
+    border-top: 1px solid #e0e0e0;
+}
+
+footer p {
+    margin: 5px 0;
+}
+
+footer a {
+    color: #007bff;
+    text-decoration: none;
+    margin: 0 5px;
+}
+
+footer a:hover {
+    text-decoration: underline;
 }
