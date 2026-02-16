@@ -13,9 +13,23 @@
 <body>
     <div class="container">
         <h1>강아지 산책 가능 여부</h1>
-        <div class="location-input">
-            <input type="text" id="cityInput" placeholder="도시를 입력하세요 (예: Seoul)" value="Seoul">
-            <button id="checkWeatherBtn">날씨 확인</button>
+        <div class="city-selection">
+            <label for="citySelect">도시 선택:</label>
+            <select id="citySelect">
+                <option value="Seoul">서울</option>
+                <option value="Busan">부산</option>
+                <option value="Incheon">인천</option>
+                <option value="Daegu">대구</option>
+                <option value="Gwangju">광주</option>
+                <option value="Daejeon">대전</option>
+                <option value="Ulsan">울산</option>
+                <option value="Suwon">수원</option>
+                <option value="Changwon">창원</option>
+                <option value="Cheongju">청주</option>
+                <option value="Jeonju">전주</option>
+                <option value="Pohang">포항</option>
+                <!-- Add more cities as needed -->
+            </select>
         </div>
 
         <div class="dog-size-selection">
